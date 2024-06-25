@@ -196,7 +196,7 @@ M.highlights = {
     ["@character"] = { link = "Character", default = true },
     ["@character.special"] = { link = "SpecialChar", default = true },
     ["@comment"] = { link = "Comment", default = true },
-    ["@conditional"] = { link = "Conditional", default = true },
+    ["@keyword.conditional"] = { link = "Conditional", default = true },
     ["@constant"] = { link = "Constant", default = true },
     ["@constant.builtin"] = { link = "Special", default = true },
     ["@constant.macro"] = { link = "Define", default = true },
@@ -205,9 +205,9 @@ M.highlights = {
     ["@define"] = { link = "Define", default = true },
     ["@defaultLibrary"] = { link = "Special", default = true },
     ["@error"] = { link = "Error", default = true },
-    ["@exception"] = { link = "Exception", default = true },
-    ["@field"] = { link = "Identifier", default = true },
-    ["@float"] = { link = "Float", default = true },
+    ["@keyword.exception"] = { link = "Exception", default = true },
+    ["@variable.member"] = { link = "Identifier", default = true },
+    ["@number.float"] = { link = "Float", default = true },
     ["@function"] = { link = "Function", default = true },
     ["@function.builtin"] = { link = "Special", default = true },
     ["@function.call"] = { link = "@function", default = true },
@@ -218,15 +218,15 @@ M.highlights = {
     ["@keyword.operator"] = { link = "@operator", default = true },
     ["@keyword.return"] = { link = "@keyword", default = true },
     ["@label"] = { link = "Label", default = true },
-    ["@method"] = { link = "Function", default = true },
+    ["@function.method"] = { link = "Function", default = true },
     ["@method.call"] = { link = "@method", default = true },
-    ["@namespace"] = { link = "Include", default = true },
+    ["@module"] = { link = "Include", default = true },
     ["@none"] = { bg = "NONE", fg = "NONE", default = true },
     ["@number"] = { link = "Number", default = true },
     ["@operator"] = { link = "Operator", default = true },
-    ["@parameter"] = { link = "Identifier", default = true },
+    ["@variable.parameter"] = { link = "Identifier", default = true },
     ["@parameter.reference"] = { link = "@parameter", default = true },
-    ["@preproc"] = { link = "PreProc", default = true },
+    ["@keyword.directive"] = { link = "PreProc", default = true },
     ["@property"] = { link = "Identifier", default = true },
     ["@punctuation.bracket"] = { link = "Delimiter", default = true },
     ["@punctuation.delimiter"] = { link = "Delimiter", default = true },
@@ -322,20 +322,41 @@ M.highlights = {
     LspOperator = { link = "@operator" },
     LspDecorator = { link = "@symbol" },
     LspDeprecated = { link = "@text.strike" },
-    ["@lsp.type.namespace"] = { link = "@namespace", default = true },
+    ["@lsp.type.namespace"] = { link = "@module", default = true },
     ["@lsp.type.type"] = { link = "@type", default = true },
     ["@lsp.type.class"] = { link = "@type", default = true },
     ["@lsp.type.enum"] = { link = "@type", default = true },
     ["@lsp.type.interface"] = { link = "@type", default = true },
     ["@lsp.type.struct"] = { link = "@structure", default = true },
-    ["@lsp.type.parameter"] = { link = "@parameter", default = true },
-    ["@lsp.type.variable"] = { link = "@variable", default = true },
+    ["@lsp.type.parameter"] = { link = "@variable.parameter", default = true },
+    -- ["@lsp.type.variable"] = { link = "@variable", default = true },
+    ["@lsp.type.variable"] = { fg = 'none' },         -- Identifier
+    ["@lsp.type.comment"] = { fg = 'none' },          -- Comment
     ["@lsp.type.property"] = { link = "@property", default = true },
     ["@lsp.type.enumMember"] = { link = "@constant", default = true },
     ["@lsp.type.function"] = { link = "@function", default = true },
-    ["@lsp.type.method"] = { link = "@method", default = true },
+    ["@lsp.type.method"] = { link = "@function.method", default = true },
     ["@lsp.type.macro"] = { link = "@macro", default = true },
     ["@lsp.type.decorator"] = { link = "@function", default = true },
+    ["@lsp.type.selfParameter"] = { link = "@variable.builtin" },
+    ["@lsp.type.builtinConstant"] = { link = "@constant.builtin" },
+    ["@lsp.type.magicFunction"] = { link = "@function.builtin" },
+    ["@lsp.mod.readonly"] = { link = "Constant" },
+    ["@lsp.mod.typeHint"] = { link = "Type" },
+    ["@lsp.typemod.operator.controlFlow"] = { link = "@keyword.exception" },
+    ["@lsp.typemod.keyword.documentation"] = { link = "Special" },
+
+    ["@lsp.typemod.variable.global"] = { link = "Constant" },
+    ["@lsp.typemod.variable.static"] = { link = "Constant" },
+    ["@lsp.typemod.variable.defaultLibrary"] = { link = "Special" },
+
+    ["@lsp.typemod.function.builtin"] = { link = "@function.builtin" },
+    ["@lsp.typemod.function.defaultLibrary"] = { link = "@function.builtin" },
+    ["@lsp.typemod.method.defaultLibrary"] = { link = "@function.builtin" },
+
+    ["@lsp.typemod.operator.injected"] = { link = "Operator" },
+    ["@lsp.typemod.string.injected"] = { link = "String" },
+    ["@lsp.typemod.variable.injected"] = { link = "@variable" },
 
     -- cmp
     CmpItemKindDefault = { fg = p.blue },
@@ -444,7 +465,7 @@ M.highlights = {
 
 function M.setup()
     local highlights = type(config.custom_highlights) == "function"
-            and config.custom_highlights(M.highlights, p)
+        and config.custom_highlights(M.highlights, p)
         or config.custom_highlights
     load_highlights(vim.tbl_extend("force", M.highlights, highlights))
     if config.terminal_colors then
